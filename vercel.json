@@ -1,16 +1,27 @@
 {
-  "framework": "laravel",
-  "functions": {
-    "api/index.php": {
-      "memory": 3008,
-      "maxDuration": 30
+  "builds": [
+    {
+      "src": "public/index.php",
+      "use": "@vercel/php"
+    },
+    {
+      "src": "resources/js/**",
+      "use": "@vercel/static"
     }
-  },
+  ],
+  "routes": [
+    {
+      "src": "^/storage/(.*)",
+      "dest": "/storage/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/public/index.php"
+    }
+  ],
   "env": {
     "APP_ENV": "production",
     "APP_DEBUG": "false"
   },
-
-  "buildCommand": "composer install && npm run build && php artisan migrate --force"
-  
+  "buildCommand": "composer install && npm install && npm run build && php artisan migrate --force"
 }
